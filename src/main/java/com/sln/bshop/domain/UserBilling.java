@@ -1,0 +1,118 @@
+package com.sln.bshop.domain;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+@Entity
+public class UserBilling {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+	@NotNull @Size(min=2, max=30, message="Invalid name")
+	private String userBillingName;
+	
+	@NotNull @Size(min=3, max=30, message="Invalid address")
+	private String userBillingStreet1;
+	
+	private String userBillingStreet2;
+	
+	@NotNull @Size(min=2, max=30, message="Invalid address")
+	private String userBillingCity;
+	
+	@NotNull 
+	private String userBillingState;
+	
+	//@NotNull
+	//private String userBillingCountry;
+	
+	@NotNull
+	@Digits(integer=8, fraction=0, message="Invalid ZIP code (must be digits)")
+	@Size(min=3, max=8, message="Invalid ZIP code length")
+	private String userBillingZipcode;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	private UserPayment userPayment;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getUserBillingName() {
+		return userBillingName;
+	}
+
+	public void setUserBillingName(String userBillingName) {
+		this.userBillingName = userBillingName;
+	}
+
+	public String getUserBillingStreet1() {
+		return userBillingStreet1;
+	}
+
+	public void setUserBillingStreet1(String userBillingStreet1) {
+		this.userBillingStreet1 = userBillingStreet1;
+	}
+
+	public String getUserBillingStreet2() {
+		return userBillingStreet2;
+	}
+
+	public void setUserBillingStreet2(String userBillingStreet2) {
+		this.userBillingStreet2 = userBillingStreet2;
+	}
+
+	public String getUserBillingCity() {
+		return userBillingCity;
+	}
+
+	public void setUserBillingCity(String userBillingCity) {
+		this.userBillingCity = userBillingCity;
+	}
+
+	public String getUserBillingState() {
+		return userBillingState;
+	}
+
+	public void setUserBillingState(String userBillingState) {
+		this.userBillingState = userBillingState;
+	}
+
+	/*public String getUserBillingCountry() {
+		return userBillingCountry;
+	}
+
+	public void setUserBillingCountry(String userBillingCountry) {
+		this.userBillingCountry = userBillingCountry;
+	}*/
+
+	public String getUserBillingZipcode() {
+		return userBillingZipcode;
+	}
+
+	public void setUserBillingZipcode(String userBillingZipcode) {
+		this.userBillingZipcode = userBillingZipcode;
+	}
+
+	public UserPayment getUserPayment() {
+		return userPayment;
+	}
+
+	public void setUserPayment(UserPayment userPayment) {
+		this.userPayment = userPayment;
+	}
+	
+	
+}

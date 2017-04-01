@@ -59,7 +59,7 @@
 						</form>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a sec:authorize="isAnonymous()" th:href="@{/shoppingCart/cart}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart</a></li>
+						<li><a th:href="@{/shoppingCart/cart}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart</a></li>
 						<li><a sec:authorize="isAnonymous()" th:href="@{/login}"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a></li>
 						<li><a sec:authorize="isAuthenticated()" th:href="@{/myProfile}"><i class="fa fa-user" aria-hidden="true"></i> Account</a></li>
 						<li><a sec:authorize="isAuthenticated()" th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
@@ -94,7 +94,7 @@
 							<i class="fa fa-phone"></i> Phone (USA) : +1 555 555 5555
 						</p>
 						<p>
-							<i class="fa fa-envelope"></i> E-mail : info@slnbookstore.com
+							<i class="fa fa-envelope"></i> E-mail : info@bookshop.com
 						</p>
 					</ul>
 				</div>

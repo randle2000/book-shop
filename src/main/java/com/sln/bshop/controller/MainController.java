@@ -1,8 +1,6 @@
 package com.sln.bshop.controller;
 
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,16 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,15 +22,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.sln.bshop.utility.MailConstructor;
 import com.sln.bshop.domain.User;
 import com.sln.bshop.domain.security.PasswordResetToken;
+import com.sln.bshop.domain.security.Role;
 import com.sln.bshop.service.UserService;
 import com.sln.bshop.service.impl.UserSecurityService;
 import com.sln.bshop.utility.SecurityUtility;
 import com.sln.bshop.validator.EmailValidator;
 
 @Controller
-@Validated
 public class MainController {
-	
+		
 	private static final Logger LOG = LoggerFactory.getLogger(MainController.class);
 	
 	@Autowired
@@ -53,6 +47,12 @@ public class MainController {
 	
 	@Autowired
 	MailConstructor mailConstructor;
+	
+	private void doManualLogin(String username) {
+		UserDetails userDetails = userSecurityService.loadUserByUsername(username);
+		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(),	userDetails.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+	}
 	
 	@RequestMapping("/")
 	public String index() {
@@ -82,8 +82,10 @@ public class MainController {
 		
 		String password = SecurityUtility.randomPassword();
 		String encryptedPassword = SecurityUtility.passwordEncoder().encode(password);
-		String roleName = "ROLE_USER";
-		User user = userService.createUser(email, encryptedPassword, roleName);
+		Role role = new Role();
+		role.setRoleId(1);
+		role.setName("ROLE_USER");
+		User user = userService.createUser(email, encryptedPassword, role);
 		
 		String token = UUID.randomUUID().toString();
 		userService.createPasswordResetTokenForUser(user, token);
@@ -94,7 +96,6 @@ public class MainController {
 		//mailSender.send(emailMessage);
 		
 		model.addAttribute("emailSent", true);
-		//model.addAttribute("orderList", user.getOrderList());
 		
 		return "myAccount";
 	}
@@ -110,16 +111,10 @@ public class MainController {
 		User user = passToken.getUser();
 		String email = user.getEmail();
 		
-		UserDetails userDetails = userSecurityService.loadUserByUsername(email);
-		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities()); 
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		doManualLogin(email);
 		
-		model.addAttribute("user", user);
-		
-		model.addAttribute("classActiveEdit", true);
-		return "myProfile";
+		return "redirect:/myProfile";
 	}
-	
 	
 	
 }

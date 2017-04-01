@@ -17,13 +17,16 @@ function checkPasswordMatch() {
 	if(password == "" && confirmPassword =="") {
 		$("#checkPasswordMatch").html("");
 		$("#updateUserInfoButton").prop('disabled', false);
+		$("#newPasswords").prop('class', 'form-group');
 	} else {
 		if(password != confirmPassword) {
 			$("#checkPasswordMatch").html("Passwords do not match!");
 			$("#updateUserInfoButton").prop('disabled', true);
+			$("#newPasswords").prop('class', 'form-group has-error');
 		} else {
 			$("#checkPasswordMatch").html("Passwords match");
 			$("#updateUserInfoButton").prop('disabled', false);
+			$("#newPasswords").prop('class', 'form-group');
 		}
 	}
 }

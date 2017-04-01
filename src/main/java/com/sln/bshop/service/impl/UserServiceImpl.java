@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -15,11 +17,16 @@ import org.springframework.stereotype.Service;
 
 import com.sln.bshop.domain.security.Role;
 import com.sln.bshop.domain.User;
+import com.sln.bshop.domain.UserBilling;
+import com.sln.bshop.domain.UserPayment;
+import com.sln.bshop.domain.UserShipping;
 import com.sln.bshop.domain.security.PasswordResetToken;
 import com.sln.bshop.domain.security.UserRole;
 import com.sln.bshop.repository.PasswordResetTokenRepository;
 import com.sln.bshop.repository.RoleRepository;
+import com.sln.bshop.repository.UserPaymentRepository;
 import com.sln.bshop.repository.UserRepository;
+import com.sln.bshop.repository.UserShippingRepository;
 import com.sln.bshop.service.UserService;
 
 @Service
@@ -36,12 +43,18 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	RoleRepository roleRepository;
 	
-	/*@Autowired
+	@Autowired
 	UserPaymentRepository userPaymentRepository;
 	
 	@Autowired
-	UserShippingRepository userShippingRepository;*/
+	UserShippingRepository userShippingRepository;
 	
+	@PersistenceContext
+	private EntityManager entityManager;
+	
+	public void detachUser(User user) {
+        entityManager.detach(user);
+    }
 
 	@Override
 	public PasswordResetToken getPasswordResetToken(String token) {
@@ -91,13 +104,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public User createUser(String email, String password, String roleName) {
+	public User createUser(String email, String password, Role role) {
 		User user = new User();
 		user.setEmail(email);
 		user.setPassword(password);
 		
-		Role role = new Role();
-		role.setName(roleName);
 		Set<UserRole> userRoles = new HashSet<>();
 		userRoles.add(new UserRole(user, role));
 		return createUser(user, userRoles);
@@ -108,7 +119,7 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 	
-	/*@Override
+	@Override
 	public void updateUserBilling(UserBilling userBilling, UserPayment userPayment, User user) {
 		userPayment.setUser(user);
 		userPayment.setUserBilling(userBilling);
@@ -116,6 +127,16 @@ public class UserServiceImpl implements UserService {
 		userBilling.setUserPayment(userPayment);
 		user.getUserPaymentList().add(userPayment);
 		save(user);
+	}
+	
+	@Override
+	public void setUserDefaultPayment(Long userPaymentId, User user) {
+		List<UserPayment> userPaymentList = user.getUserPaymentList();
+		
+		userPaymentList.forEach(up -> {
+			up.setDefaultPayment(up.getId().equals(userPaymentId));
+			userPaymentRepository.save(up);
+		});
 	}
 	
 	@Override
@@ -127,23 +148,13 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void setUserDefaultPayment(Long userPaymentId, User user) {
-		List<UserPayment> userPaymentList = (List<UserPayment>) userPaymentRepository.findAll();
-		
-		userPaymentList.forEach(up -> {
-			up.setDefaultPayment(up.getId().equals(userPaymentId));
-			userPaymentRepository.save(up);
-		});
-	}
-	
-	@Override
 	public void setUserDefaultShipping(Long userShippingId, User user) {
-		List<UserShipping> userShippingList = (List<UserShipping>) userShippingRepository.findAll();
+		List<UserShipping> userShippingList = user.getUserShippingList();
 		
 		userShippingList.forEach(us -> {
 			us.setUserShippingDefault(us.getId().equals(userShippingId));
 			userShippingRepository.save(us);
 		});
-	}*/
+	}
 
 }

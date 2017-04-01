@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
 <head th:replace="common/header :: common-header" />
@@ -49,7 +48,7 @@
 						<div class="panel-group">
 							<div class="panel panel-default" style="border: none;">
 								<div class="panel-body"	style="background-color: #ededed; margin-top: 20px;">
-									<div th:if="${param.error != null}" style="color:red;">Incorrect Email or password.</div>
+									<div th:if="${param.error != null}" class="alert alert-danger">Incorrect Email or password.</div>
 									<form th:action="@{/login}" method="post">
 										<div class="form-group">
 											<label for="newUsername">* Email: </label>

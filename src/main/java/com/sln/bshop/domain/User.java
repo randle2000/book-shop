@@ -14,7 +14,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -30,24 +33,28 @@ public class User implements UserDetails {
 	@Column(name="id", nullable = false, updatable = false)
 	private Long id;
 	
+	@Email
 	@Column(name="email", nullable = false, updatable = false)
 	private String email;
 
 	private String password;
+	
+	//@NotNull
+    //@Size(min = 2, max = 30)
 	private String firstName;
 	private String lastName;
 	private boolean enabled=true;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	List<UserPayment> userPaymentList;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	List<UserShipping> userShippingList;
 	
 	/*
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
 	ShoppingCart shoppingCart;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	List<UserShipping> userShippingList;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	List<UserPayment> userPaymentList;
-
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	List<Order> orderList;*/
 
@@ -99,7 +106,7 @@ public class User implements UserDetails {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	/*public List<UserShipping> getUserShippingList() {
+	public List<UserShipping> getUserShippingList() {
 		return userShippingList;
 	}
 	public void setUserShippingList(List<UserShipping> userShippingList) {
@@ -110,7 +117,7 @@ public class User implements UserDetails {
 	}
 	public void setUserPaymentList(List<UserPayment> userPaymentList) {
 		this.userPaymentList = userPaymentList;
-	}*/
+	}
 	public Set<UserRole> getUserRoles() {
 		return userRoles;
 	}
@@ -147,5 +154,10 @@ public class User implements UserDetails {
 	public void setOrderList(List<Order> orderList) {
 		this.orderList = orderList;
 	}*/
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", enabled=" + enabled + ", userRoles=" + userRoles + "]";
+	}
 	
 }
