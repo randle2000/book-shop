@@ -52,8 +52,7 @@
 								<div class="panel-body"	style="background-color: #ededed; margin-top: 20px;">
 
 									<div class="alert alert-danger" th:if="${incorrectPassword}">
-										<strong>Incorrect Password!</strong> Please enter the correct
-										password for the current user.
+										<strong>Incorrect Password!</strong> Please enter your current password.
 									</div>
 
 									<div class="alert alert-success" th:if="${updateSuccess}">
@@ -304,7 +303,7 @@
 												<thead>
 													<tr>
 														<th>Default Card</th>
-														<th>Credit Card</th>
+														<th>Credit Card Name</th>
 														<th>Operations</th>
 													</tr>
 												</thead>
@@ -312,7 +311,8 @@
 													<tr th:each="userPayment : ${userPaymentList}">
 														<td><input type="radio" name="defaultUserPaymentId"
 															th:value="${userPayment.id}"
-															th:checked="${userPayment.defaultPayment}" /><span> Default</span></td>
+															th:checked="${userPayment.defaultPayment}" /><span th:if="${userPayment.defaultPayment}"> Default card</span>
+														</td>
 														<td th:text="${userPayment.cardName}"></td>
 														<td>
 															<a th:href="@{/updateCreditCard(id=${userPayment.id})}" class="btn btn-info btn-xs">
@@ -529,9 +529,9 @@
 														<td><input type="radio"
 															name="defaultShippingAddressId"
 															th:value="${userShipping.id}"
-															th:checked="${userShipping.userShippingDefault}" /><span> Default</span></td>
+															th:checked="${userShipping.userShippingDefault}" /><span th:if="${userShipping.userShippingDefault}"> Default address</span></td>
 														<td
-															th:text="${userShipping.userShippingStreet1}+', '+
+															th:text="${userShipping.userShippingName}+', '+${userShipping.userShippingStreet1}+', '+
 														${userShipping.userShippingCity}+', '+${userShipping.userShippingState}"></td>
 														<td>
 															<a th:href="@{/updateUserShipping(id=${userShipping.id})}" class="btn btn-info btn-xs">

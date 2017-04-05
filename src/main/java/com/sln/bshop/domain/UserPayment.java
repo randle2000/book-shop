@@ -12,6 +12,8 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Range;
+
 @Entity
 public class UserPayment {
 
@@ -34,8 +36,7 @@ public class UserPayment {
 	@NotNull
 	private int expiryYear;
 
-	@NotNull
-	@Digits(integer=3, fraction=0, message="Invalid CVC code")
+	@Range(min = 0, max = 999, message="Invalid CVC code")
 	private int cvc;
 	
 	@NotNull @Size(min=2, max=30, message="Invalid name")
@@ -136,6 +137,14 @@ public class UserPayment {
 
 	public void setUserBilling(UserBilling userBilling) {
 		this.userBilling = userBilling;
+	}
+
+	@Override
+	public String toString() {
+		return "UserPayment [id=" + id + ", type=" + type + ", cardName=" + cardName + ", cardNumber=" + cardNumber
+				+ ", expiryMonth=" + expiryMonth + ", expiryYear=" + expiryYear + ", cvc=" + cvc + ", holderName="
+				+ holderName + ", defaultPayment=" + defaultPayment + ", user=" + user + ", userBilling=" + userBilling
+				+ "]";
 	}
 	
 	

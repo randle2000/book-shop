@@ -41,14 +41,14 @@ public class User implements UserDetails {
 	
 	//@NotNull
     //@Size(min = 2, max = 30)
-	private String firstName;
-	private String lastName;
+	private String firstName = "John";
+	private String lastName = "Galt";
 	private boolean enabled=true;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval=true)
 	List<UserPayment> userPaymentList;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval=true)
 	List<UserShipping> userShippingList;
 	
 	/*

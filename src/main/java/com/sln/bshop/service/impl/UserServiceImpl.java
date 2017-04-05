@@ -1,11 +1,9 @@
 package com.sln.bshop.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -120,7 +118,9 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Transactional
 	public void updateUserBilling(UserBilling userBilling, UserPayment userPayment, User user) {
+		userPaymentRepository.setAllDefaultPayment(false);	// remove 'default' flag from all other payments
 		userPayment.setUser(user);
 		userPayment.setUserBilling(userBilling);
 		userPayment.setDefaultPayment(true);
@@ -140,7 +140,9 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Transactional
 	public void updateUserShipping(UserShipping userShipping, User user) {
+		userShippingRepository.setAllDefaultShipping(false);	// remove 'default' flag from all other shippings
 		userShipping.setUser(user);
 		userShipping.setUserShippingDefault(true);
 		user.getUserShippingList().add(userShipping);
@@ -155,6 +157,35 @@ public class UserServiceImpl implements UserService {
 			us.setUserShippingDefault(us.getId().equals(userShippingId));
 			userShippingRepository.save(us);
 		});
+	}
+	
+	@Override
+	@Transactional
+	public void removeUserPayment(User user, UserPayment userPayment) {
+		//userPaymentRepository.delete(userPayment);
+		user.getUserPaymentList().remove(userPayment);
+		//userRepository.save(user);
+		// if this card was Default, then set next credit card as Default
+		if (userPayment.isDefaultPayment()) { 
+			if (user.getUserPaymentList().listIterator().hasNext()) {
+				Long nextPaymentId = user.getUserPaymentList().listIterator().next().getId();
+				setUserDefaultPayment(nextPaymentId, user);
+			}
+		}
+	}
+	
+	@Override
+	@Transactional
+	public void removeUserShipping(User user, UserShipping userShipping) {
+		//userShippingRepository.delete(userShipping);
+		user.getUserShippingList().remove(userShipping);
+		// if this address was Default, then set next address as Default
+		if (userShipping.isUserShippingDefault()) { 
+			if (user.getUserShippingList().listIterator().hasNext()) {
+				Long nextShippingId = user.getUserShippingList().listIterator().next().getId();
+				setUserDefaultShipping(nextShippingId, user);
+			}
+		}
 	}
 
 }

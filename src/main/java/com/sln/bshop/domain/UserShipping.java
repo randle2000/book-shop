@@ -143,6 +143,13 @@ public class UserShipping {
 	public void setUserShippingDefault(boolean userShippingDefault) {
 		this.userShippingDefault = userShippingDefault;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "UserShipping [id=" + id + ", userShippingName=" + userShippingName + ", userShippingStreet1="
+				+ userShippingStreet1 + ", userShippingStreet2=" + userShippingStreet2 + ", userShippingCity="
+				+ userShippingCity + ", userShippingState=" + userShippingState + ", userShippingZipcode="
+				+ userShippingZipcode + ", userShippingDefault=" + userShippingDefault + ", user=" + user + "]";
+	}
 	
 }

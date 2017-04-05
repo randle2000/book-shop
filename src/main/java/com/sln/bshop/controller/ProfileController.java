@@ -180,7 +180,7 @@ public class ProfileController {
 		if(!user.getId().equals(userPayment.getUser().getId())) {
 			return "redirect://badRequest";
 		} else {
-			userPaymentService.removeById(creditCardId);
+			userService.removeUserPayment(user, userPayment);
 
 			model.addAttribute("classActiveBilling", true);
 			return "myProfile";
@@ -264,7 +264,7 @@ public class ProfileController {
 		if(!user.getId().equals(userShipping.getUser().getId())) {
 			return "redirect:/badRequest";
 		} else {
-			userShippingService.removeById(userShippingId);
+			userService.removeUserShipping(user, userShipping);
 			
 			model.addAttribute("classActiveShipping", true);
 			return "myProfile";

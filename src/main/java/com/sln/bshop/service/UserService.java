@@ -35,4 +35,8 @@ public interface UserService {
 	
 	void detachUser(User user);
 	
+	void removeUserPayment(User user, UserPayment userPayment);
+	
+	void removeUserShipping(User user, UserShipping userShipping);
+	
 }
