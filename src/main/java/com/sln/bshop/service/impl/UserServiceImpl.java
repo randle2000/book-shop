@@ -1,5 +1,6 @@
 package com.sln.bshop.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sln.bshop.domain.security.Role;
+import com.sln.bshop.domain.ShoppingCart;
 import com.sln.bshop.domain.User;
 import com.sln.bshop.domain.UserBilling;
 import com.sln.bshop.domain.UserPayment;
@@ -89,12 +91,12 @@ public class UserServiceImpl implements UserService {
 			}
 			user.getUserRoles().addAll(userRoles);
 			
-			/*ShoppingCart shoppingCart = new ShoppingCart();
+			ShoppingCart shoppingCart = new ShoppingCart();
 			shoppingCart.setUser(user);
 			user.setShoppingCart(shoppingCart);
 			
 			user.setUserShippingList(new ArrayList<UserShipping>());
-			user.setUserPaymentList(new ArrayList<UserPayment>());*/
+			user.setUserPaymentList(new ArrayList<UserPayment>());
 			
 			localUser = userRepository.save(user);
 		}
@@ -120,7 +122,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void updateUserBilling(UserBilling userBilling, UserPayment userPayment, User user) {
-		userPaymentRepository.setAllDefaultPayment(false);	// remove 'default' flag from all other payments
+		userPaymentRepository.setAllDefaultPayment(false, user);	// remove 'default' flag from all other payments
 		userPayment.setUser(user);
 		userPayment.setUserBilling(userBilling);
 		userPayment.setDefaultPayment(true);
@@ -142,7 +144,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void updateUserShipping(UserShipping userShipping, User user) {
-		userShippingRepository.setAllDefaultShipping(false);	// remove 'default' flag from all other shippings
+		userShippingRepository.setAllDefaultShipping(false, user);	// remove 'default' flag from all other shippings
 		userShipping.setUser(user);
 		userShipping.setUserShippingDefault(true);
 		user.getUserShippingList().add(userShipping);

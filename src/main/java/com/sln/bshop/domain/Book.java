@@ -2,8 +2,10 @@ package com.sln.bshop.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,10 +43,9 @@ public class Book {
 	@Transient
 	private MultipartFile bookImage;
 	
-	
-	/*@OneToMany(mappedBy = "book")
+	@OneToMany(mappedBy="book", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JsonIgnore
-	private List<BookToCartItem> bookToCartItemList;*/
+	private List<CartItem> cartItemList;
 
 	public Long getId() {
 		return id;
@@ -182,5 +183,14 @@ public class Book {
 		this.bookImage = bookImage;
 	}
 
+	public List<CartItem> getCartItemList() {
+		return cartItemList;
+	}
+
+	public void setCartItemList(List<CartItem> cartItemList) {
+		this.cartItemList = cartItemList;
+	}
+
+	
 	
 }

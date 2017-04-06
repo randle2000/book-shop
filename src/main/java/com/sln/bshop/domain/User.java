@@ -14,8 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,6 +25,8 @@ import com.sln.bshop.domain.security.UserRole;
 
 @Entity
 public class User implements UserDetails {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -51,10 +51,10 @@ public class User implements UserDetails {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval=true)
 	List<UserShipping> userShippingList;
 	
-	/*
+	
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
 	ShoppingCart shoppingCart;
-	
+	/*
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	List<Order> orderList;*/
 
@@ -142,13 +142,13 @@ public class User implements UserDetails {
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
-	/*public ShoppingCart getShoppingCart() {
+	public ShoppingCart getShoppingCart() {
 		return shoppingCart;
 	}
 	public void setShoppingCart(ShoppingCart shoppingCart) {
 		this.shoppingCart = shoppingCart;
 	}
-	public List<Order> getOrderList() {
+	/*public List<Order> getOrderList() {
 		return orderList;
 	}
 	public void setOrderList(List<Order> orderList) {

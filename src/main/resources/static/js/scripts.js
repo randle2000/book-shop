@@ -31,6 +31,7 @@ function checkPasswordMatch() {
 	}
 }
 
+/* myAccount.html, shoppingCart.html, */
 $(document).ready(function(){
 	$(".cartItemQty").on('change', function(){
 		var id=this.id;

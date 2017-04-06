@@ -1,14 +1,12 @@
 package com.sln.bshop.controller;
 
 import java.security.Principal;
-import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -38,7 +36,7 @@ import com.sln.bshop.utility.USConstants;
 @Controller
 public class ProfileController {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(ProfileController.class);
+	//private static final Logger LOG = LoggerFactory.getLogger(ProfileController.class);
 	
 	@Autowired
 	UserService userService;

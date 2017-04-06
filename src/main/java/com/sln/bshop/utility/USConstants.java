@@ -11,6 +11,8 @@ public class USConstants {
 	public final static String US = "US";
 	
 	public final static Map<String, String> mapOfUSStates = new HashMap<String, String>() {
+		private static final long serialVersionUID = 1L;
+
 		{
 			put("AL", "Alabama");
 			put("AK", "Alaska");
