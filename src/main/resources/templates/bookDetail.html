@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
-<head th:replace="/common/header :: common-header"/>
+<head th:replace="common/header :: common-header"/>
 
 <body>
-	<div th:replace="/common/header :: navbar"/>
+	<div th:replace="common/header :: navbar"/>
 
 	<div class="container">
 		<div class="row" style="margin-bottom: -50px;">
@@ -23,8 +23,9 @@
     
 	    <form th:action="@{/shoppingCart/addItem}" method="post" th:object="${book}" style="margin-top: -65px;">
 	    	<input hidden="hidden" th:field="*{id}" />
-	    	<div class="row" style="margin-top: 120px;">
+	    	<div class="row" style="margin-top: 70px;">
 	    		<h2><a th:href="@{/bookshelf}"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to book list</a><br/></h2>
+	    		<br/><br/>
 	    		<div class="col-xs-3">
 	    			<img class="img-responsive shelf-book" th:src="@{/image/book/}+${book.id}+'.png'" />
 	    		</div>
@@ -60,7 +61,7 @@
 	    									</select>
 	    								</div>
 	    								<div class="col-xs-6">
-	    									<h4 th:if="*{inStockNumber&gt;10}" style="color: green">In Stock</h4>
+	    									<h4 th:if="*{inStockNumber&gt;9}" style="color: green">In Stock</h4>
 	    									<h4 th:if="*{inStockNumber&lt;10 and inStockNumber&gt;0}" style="color: red">Only <span th:text="*{inStockNumber}"> </span> In Stock</h4>
 	    									<h4 th:if="*{inStockNumber==0}" style="color:darkred;">Unavailable</h4>
 	    									<button type="submit" class="btn btn-warning" style="color:black;border:1px solid black; padding: 10px 40px 10px 40px;">Add to Cart</button>
@@ -79,8 +80,8 @@
 	</div>
 	<!-- end of container -->
 
-	<div th:replace="/common/header :: footer"/>
-	<div th:replace="/common/header :: body-bottom-scripts"/>
+	<div th:replace="common/header :: footer"/>
+	<div th:replace="common/header :: body-bottom-scripts"/>
 	
 </body>
 </html>

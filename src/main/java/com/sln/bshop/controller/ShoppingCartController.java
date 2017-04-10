@@ -40,19 +40,20 @@ public class ShoppingCartController {
 	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
+	@ModelAttribute
+	public void populateModel(Model model, Principal principal) {
+		User user = userService.findByEmail(principal.getName());
+		ShoppingCart shoppingCart = user.getShoppingCart();
+		List<CartItem> cartItemList = shoppingCart.getCartItemList();
+		model.addAttribute("cartItemList", cartItemList);
+		//model.addAttribute("shoppingCart", shoppingCart);
+	}
 	
 	@RequestMapping("/cart")
 	public String shoppingCart(Model model, Principal principal) {
 		User user = userService.findByEmail(principal.getName());
 		ShoppingCart shoppingCart = user.getShoppingCart();
-
-		List<CartItem> cartItemList = shoppingCart.getCartItemList();
-		
 		shoppingCartService.updateShoppingCart(shoppingCart);
-		
-		model.addAttribute("cartItemList", cartItemList);
-		model.addAttribute("shoppingCart", shoppingCart);
-		
 		return "shoppingCart";
 	}
 
@@ -72,6 +73,8 @@ public class ShoppingCartController {
 		
 		cartItemService.addBookToCartItem(book, user, Integer.parseInt(qty));
 		model.addAttribute("addBookSuccess", true);
+		
+		//model.addAttribute("cartItemList", user.getShoppingCart().getCartItemList());
 		
 		return "forward:/bookDetail?id="+book.getId();
 	}

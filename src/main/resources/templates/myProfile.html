@@ -5,7 +5,7 @@
 <body>
 	<div th:replace="common/header :: navbar" />
 
-	<div class="container">
+	<div class="generic-container">
 		<div class="row" style="margin-bottom: -10px;">
 			<div class="col-xs-3">
 				<img src="/image/1490985786_elementary_school.png" class="img-responsive" />
@@ -66,8 +66,11 @@
 										
 										<div class="form-group">
 											<label for="email" class="control-label">Your Email Address</label>
-											<input type="hidden" th:field="*{email}" /> 
-											<input type="text" class="form-control" id="email" th:value="*{email}" disabled="true" />
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+												<input type="hidden" th:field="*{email}" /> 
+												<input type="text" class="form-control" id="email" th:value="*{email}" disabled="true" />
+											</div>
 											<p style="color: #828282">All
 												emails from the system withll be sent to this address. The
 												email address is not made public and will only be used if you
@@ -93,19 +96,28 @@
 
 										<div class="form-group">
 											<label for="currentPassword" class="control-label">Current Password</label> 
-											<input type="password" class="form-control" id="currentPassword" th:field="*{password}" />
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+												<input type="password" class="form-control" id="currentPassword" th:field="*{password}" />
+											</div>
 											<p style="color: #828282">Enter your current password to set new password.</p>
 										</div>
 										
 										<div class="form-group" id="newPasswords">
 											<label for="txtNewPassword" class="control-label">New Password</label>&nbsp;
 											<span id="checkPasswordMatch" style="color: red;"></span>
-											<input type="password" class="form-control" id="txtNewPassword" name="newPassword" />
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fa fa-unlock" aria-hidden="true"></i></span>
+												<input type="password" class="form-control" id="txtNewPassword" name="newPassword" />
+											</div>
 	
 											<br />
 	
 											<label for="txtConfirmPassword" class="control-label">Confirm New Password</label>
-											<input type="password" class="form-control" id="txtConfirmPassword" />
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fa fa-unlock" aria-hidden="true"></i></span>
+												<input type="password" class="form-control" id="txtConfirmPassword" />
+											</div>
 											<p style="color: #828282">To change the current user
 												password, enter the new password in both fields.</p>
 										</div>
@@ -163,15 +175,15 @@
 															</div>
 															<div class="panel-body">
 																<span
-																	th:text="${order.billingAddress.billingAddressName}"></span><br />
+																	th:text="${order.orderBilling.orderBillingName}"></span><br />
 																<span
-																	th:text="${order.billingAddress.billingAddressStreet1}+' '+${order.billingAddress.billingAddressStreet2}"></span><br />
+																	th:text="${order.orderBilling.orderBillingStreet1}+' '+${order.orderBilling.orderBillingStreet2}"></span><br />
 																<span
-																	th:text="${order.billingAddress.billingAddressCity}"></span><br />
+																	th:text="${order.orderBilling.orderBillingCity}"></span><br />
 																<span
-																	th:text="${order.billingAddress.billingAddressState}"></span><br />
+																	th:text="${order.orderBilling.orderBillingState}"></span><br />
 																<span
-																	th:text="${order.billingAddress.billingAddressZipcode}"></span><br />
+																	th:text="${order.orderBilling.orderBillingZipcode}"></span><br />
 															</div>
 														</div>
 													</div>
@@ -181,11 +193,11 @@
 																<strong>Payment Information</strong>
 															</div>
 															<div class="panel-body">
-																<span th:text="${order.payment.holderName}">Card
-																	Name</span><br /> <span th:text="${order.payment.cardNumber}">Card
+																<span th:text="${order.orderPayment.holderName}">Card
+																	Name</span><br /> <span th:text="${order.orderPayment.cardNumber}">Card
 																	Number</span><br /> <span>Exp Date:</span><span
-																	th:text="${order.payment.expiryMonth}"></span>/<span
-																	th:text="${order.payment.expiryYear}"></span><br />
+																	th:text="${order.orderPayment.expiryMonth}"></span>/<span
+																	th:text="${order.orderPayment.expiryYear}"></span><br />
 															</div>
 														</div>
 													</div>
@@ -196,15 +208,15 @@
 															</div>
 															<div class="panel-body">
 																<span
-																	th:text="${order.shippingAddress.shippingAddressName}"></span><br />
+																	th:text="${order.orderShipping.orderShippingName}"></span><br />
 																<span
-																	th:text="${order.shippingAddress.shippingAddressStreet1}+' '+${order.shippingAddress.shippingAddressStreet2}"></span><br />
+																	th:text="${order.orderShipping.orderShippingStreet1}+' '+${order.orderShipping.orderShippingStreet2}"></span><br />
 																<span
-																	th:text="${order.shippingAddress.shippingAddressCity}"></span><br />
+																	th:text="${order.orderShipping.orderShippingCity}"></span><br />
 																<span
-																	th:text="${order.shippingAddress.shippingAddressState}"></span><br />
+																	th:text="${order.orderShipping.orderShippingState}"></span><br />
 																<span
-																	th:text="${order.shippingAddress.shippingAddressZipcode}"></span><br />
+																	th:text="${order.orderShipping.orderShippingZipcode}"></span><br />
 															</div>
 														</div>
 													</div>
@@ -419,11 +431,11 @@
 													<div class="form-group" th:classappend="${#fields.hasErrors('userPayment.cardNumber')}? 'has-error'">
 														<label for="cardNumber" class="control-label">* Card Number:</label>
 														<div class="input-group">
+															<span class="input-group-addon"><i class="fa fa-credit-card" aria-hidden="true"></i></span>
 															<input type="tel" class="form-control" id="cardNumber"
 																required="required" placeHolder="Valid Card Number"
 																name="cardNumber"
 																th:value="${userPayment.cardNumber}" />
-															<span class="input-group-addon"><i class="fa fa-credit-card" aria-hidden="true"></i></span>
 														</div>
 														<span th:if="${#fields.hasErrors('userPayment.cardNumber')}" th:errors="${userPayment.cardNumber}" class="control-label"></span>
 													</div>

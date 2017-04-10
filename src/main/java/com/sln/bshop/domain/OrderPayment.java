@@ -1,12 +1,9 @@
 package com.sln.bshop.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -15,41 +12,32 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
-public class UserPayment {
+public class OrderPayment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String type;
-	
-	@Size(min=1, max=30)
-	private String cardName;
-	
+
 	@Digits(integer=16, fraction=0, message="Invalid Credit Card number (expecting digits - no more validation by now)")
 	@Size(min=16, max=16, message="Number of digits must be 16 - no more validation by now")
 	private String cardNumber;
-
+	
 	@NotNull 
 	private int expiryMonth;
 	
-	@NotNull
+	@NotNull 
 	private int expiryYear;
 
 	@Range(min = 0, max = 999, message="Invalid CVC code")
 	private int cvc;
-	
+
 	@Size(min=2, max=30, message="Invalid name")
 	private String holderName;
 	
-	private boolean defaultPayment;
+	@OneToOne
+	private Order order;
 	
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User user;
-	
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "userPayment")
-	private UserBilling userBilling;
-
 	public Long getId() {
 		return id;
 	}
@@ -64,14 +52,6 @@ public class UserPayment {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public String getCardName() {
-		return cardName;
-	}
-
-	public void setCardName(String cardName) {
-		this.cardName = cardName;
 	}
 
 	public String getCardNumber() {
@@ -114,37 +94,13 @@ public class UserPayment {
 		this.holderName = holderName;
 	}
 
-	public boolean isDefaultPayment() {
-		return defaultPayment;
+	public Order getOrder() {
+		return order;
 	}
 
-	public void setDefaultPayment(boolean defaultPayment) {
-		this.defaultPayment = defaultPayment;
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public UserBilling getUserBilling() {
-		return userBilling;
-	}
-
-	public void setUserBilling(UserBilling userBilling) {
-		this.userBilling = userBilling;
-	}
-
-	@Override
-	public String toString() {
-		return "UserPayment [id=" + id + ", type=" + type + ", cardName=" + cardName + ", cardNumber=" + cardNumber
-				+ ", expiryMonth=" + expiryMonth + ", expiryYear=" + expiryYear + ", cvc=" + cvc + ", holderName="
-				+ holderName + ", defaultPayment=" + defaultPayment + ", user=" + user + ", userBilling=" + userBilling
-				+ "]";
-	}
-	
 	
 }

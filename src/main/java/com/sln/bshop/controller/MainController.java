@@ -9,12 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,8 +44,8 @@ public class MainController {
 	@Autowired
 	EmailValidator emailValidator;
 	
-	//@Autowired
-	//JavaMailSender mailSender;
+	@Autowired
+	JavaMailSender mailSender;
 	
 	@Autowired
 	MailConstructor mailConstructor;
@@ -57,6 +59,16 @@ public class MainController {
 	@RequestMapping("/")
 	public String index() {
 		return "index";
+	}
+	
+	@RequestMapping("/hours")
+	public String hours() {
+		return "hours";
+	}
+	
+	@RequestMapping("/faq")
+	public String faq() {
+		return "faq";
 	}
 	
 	@RequestMapping("/login")
@@ -93,10 +105,9 @@ public class MainController {
 		String appUrl = "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 		SimpleMailMessage emailMessage = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user, password);
 		LOG.info("Sending email: {}", emailMessage);
-		//mailSender.send(emailMessage);
+		mailSender.send(emailMessage);
 		
 		model.addAttribute("emailSent", true);
-		
 		return "myAccount";
 	}
 
@@ -114,6 +125,34 @@ public class MainController {
 		doManualLogin(email);
 		
 		return "redirect:/myProfile";
+	}
+	
+	@RequestMapping("/forgotPassword")
+	public String forgetPassword(HttpServletRequest request, @RequestParam("email") String email, Model model) {
+		
+		User user = userService.findByEmail(email);
+		if (user == null) {
+			model.addAttribute("emailNotExist", true);
+			model.addAttribute("classActiveForgotPassword", true);
+			return "myAccount";
+		}
+		
+		String password = SecurityUtility.randomPassword();
+		String encryptedPassword = SecurityUtility.passwordEncoder().encode(password);
+		user.setPassword(encryptedPassword);
+		userService.save(user);
+		
+		String token = UUID.randomUUID().toString();
+		userService.createPasswordResetTokenForUser(user, token);
+		
+		String appUrl = "http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+		SimpleMailMessage newEmail = mailConstructor.constructResetTokenEmail(appUrl, request.getLocale(), token, user, password);
+		LOG.info("Sending email: {}", newEmail);
+		mailSender.send(newEmail);
+		
+		model.addAttribute("forgotPasswordEmailSent", "true");
+		model.addAttribute("classActiveForgotPassword", true);
+		return "myAccount";
 	}
 	
 	

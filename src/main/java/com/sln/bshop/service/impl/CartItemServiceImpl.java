@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.sln.bshop.domain.Book;
 import com.sln.bshop.domain.CartItem;
+import com.sln.bshop.domain.Order;
+import com.sln.bshop.domain.ShoppingCart;
 import com.sln.bshop.domain.User;
 import com.sln.bshop.repository.CartItemRepository;
 import com.sln.bshop.service.CartItemService;
@@ -22,9 +24,9 @@ public class CartItemServiceImpl implements CartItemService {
 	@Autowired
 	private CartItemRepository cartItemRepository;
 	
-	/*public List<CartItem> findByShoppingCart(ShoppingCart shoppingCart) {
+	public List<CartItem> findByShoppingCart(ShoppingCart shoppingCart) {
 		return cartItemRepository.findByShoppingCart(shoppingCart);
-	}*/
+	}
 	
 	public CartItem updateCartItem(CartItem cartItem) {
 		BigDecimal bigDecimal = new BigDecimal(cartItem.getBook().getOurPrice()).multiply(new BigDecimal(cartItem.getQty()));
@@ -50,12 +52,15 @@ public class CartItemServiceImpl implements CartItemService {
 		}
 		
 		CartItem cartItem = new CartItem();
-		cartItem.setShoppingCart(user.getShoppingCart());
+		ShoppingCart shoppingCart = user.getShoppingCart();
+		cartItem.setShoppingCart(shoppingCart);
 		cartItem.setBook(book);
+		shoppingCart.getCartItemList().add(cartItem);
 		
 		cartItem.setQty(qty);
 		cartItem.setSubtotal(new BigDecimal(book.getOurPrice()).multiply(new BigDecimal(qty)));
 		book.getCartItemList().add(cartItem); 
+		//shoppingCart.getCartItemList().add(cartItem);
 		cartItem = cartItemRepository.save(cartItem);
 		
 		return cartItem;
@@ -73,9 +78,9 @@ public class CartItemServiceImpl implements CartItemService {
 	public CartItem save(CartItem cartItem) {
 		return cartItemRepository.save(cartItem);
 	}
+*/
 
 	public List<CartItem> findByOrder(Order order) {
 		return cartItemRepository.findByOrder(order);
 	}
-*/
 }

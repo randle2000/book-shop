@@ -57,7 +57,12 @@
 						</form>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a th:href="@{/shoppingCart/cart}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart</a></li>
+						<li>
+							<a th:href="@{/shoppingCart/cart}">
+								<span th:if="${shoppingCart?.cartItemList?.size() gt 0}" th:text="${shoppingCart.cartItemList.size()}" class="label label-danger label-as-badge" style="border-radius: 1em;"></span>&nbsp;
+								<i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
+							</a>
+						</li>
 						<li><a sec:authorize="isAnonymous()" th:href="@{/login}"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a></li>
 						<li><a sec:authorize="isAuthenticated()" th:href="@{/myProfile}"><i class="fa fa-user" aria-hidden="true"></i> Account</a></li>
 						<li><a sec:authorize="isAuthenticated()" th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
@@ -72,18 +77,19 @@
 	<div th:fragment="footer">
 		<br />
 		<br />
+
 		<footer>
 			<div class="row">
-				<div class="col-xs-3 footerleft">
+ 				<div class="col-xs-3 footerleft"> 
 					<div class="logofooter">
 						<a th:href="@{/}"><img class="img-responsive"
 							src="/image/booklistnew_1_orig.png" style="width: 200px;" /></a>
 					</div>
 					<h6 class="heading7">SLN's Book Shop.</h6>
-					<p>Serving our customers since 1996</p>
+ 					<p>Serving our customers since 1996</p>
 				</div>
-				<div class="col-xs-3 paddingtop-bottom">
-					<h6 class="heading7">CONTACT</h6>
+ 				<div class="col-xs-3 paddingtop-bottom"> 
+ 					<h6 class="heading7">CONTACT</h6>
 					<ul class="post">
 						<p>
 							<i class="fa fa-map-pin"></i> 123 XXX Ave<br /> New York NY, USA 33322
@@ -96,39 +102,39 @@
 						</p>
 					</ul>
 				</div>
-				<div class="col-xs-3 paddingtop-bottom">
-					<h6 class="heading7">LINKS</h6>
+ 				<div class="col-xs-3 paddingtop-bottom"> 
+ 					<h6 class="heading7">LINKS</h6>
 					<ul class="footer-ul">
 						<li><a href="#"> Privacy Policy</a></li>
 						<li><a href="#"> Terms &#38; Conditions</a></li>
-						<li><a href="#"> Frequently Asked Questions</a></li>
+						<li><a th:href="@{/faq}"> Frequently Asked Questions</a></li>
 					</ul>
 				</div>
-				<div class="col-xs-3 paddingtop-bottom">
-					<h6 class="heading7">SHOP HOURS</h6>
+ 				<div class="col-xs-3 paddingtop-bottom"> 
+ 					<h6 class="heading7">SHOP HOURS</h6>
 					<div class="post">
 						<p>Monday - Saturday: 9am - 10pm</p>
 						<p>Sunday: 10am - 10pm</p>
 					</div>
-				</div>
+ 				</div>
 			</div>
 		</footer>
-
-		<div class="copyright">
+ 
+ 		<div class="copyright">
 			<div class="col-md-6">
 				<p>© 2017 - All Rights Reserved</p>
 			</div>
 			<div class="col-md-6">
 				<ul class="bottom_ul">
-					<li><a href="#">About us</a></li>
+					<li><a th:href="@{/hours}">About us</a></li>
 					<li><a href="#">Blog</a></li>
-					<li><a href="#">FAQ's</a></li>
-					<li><a href="#">Contact us</a></li>
+					<li><a th:href="@{/faq}">FAQ's</a></li>
+					<li><a th:href="@{/hours}">Contact us</a></li>
 					<li><a href="#">Site Map</a></li>
 				</ul>
 			</div>
 		</div>
-	</div>
+ 	</div>
 	
 
 	<div th:fragment="body-bottom-scripts">

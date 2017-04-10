@@ -70,12 +70,28 @@
 
 	<build>
 		<plugins>
+		
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			<!-- Heroku Maven plugin -->
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>1.1.3</version>
+				<configuration>
+					<appName>sln-book-shop</appName>
+					<!-- you can either create file Procfile in project root and place this 
+						line into it: web: java $JAVA_OPTS ..... OR use the tag below. It seems that 
+						this tag takes preference over Procfile if both are present -->
+					<processTypes>
+						<web>java $JAVA_OPTS -Dserver.port=$PORT -jar target/book-shop-0.0.1-SNAPSHOT.jar</web>
+					</processTypes>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 	</build>
-
-
 </project>

@@ -28,9 +28,9 @@ public class BookShopApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		User user1 = new User();
 		user1.setFirstName("John");
-		user1.setLastName("Adams");
+		user1.setLastName("Galt");
 		user1.setPassword(SecurityUtility.passwordEncoder().encode("p"));
-		user1.setEmail("JAdams@gmail.com");
+		user1.setEmail("jgalt@gmail.com");
 		Set<UserRole> userRoles = new HashSet<>();
 		Role role1= new Role();
 		role1.setRoleId(1);

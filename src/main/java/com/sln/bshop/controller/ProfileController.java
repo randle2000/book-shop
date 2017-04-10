@@ -21,10 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sln.bshop.domain.CartItem;
+import com.sln.bshop.domain.Order;
 import com.sln.bshop.domain.User;
 import com.sln.bshop.domain.UserBilling;
 import com.sln.bshop.domain.UserPayment;
 import com.sln.bshop.domain.UserShipping;
+import com.sln.bshop.service.CartItemService;
+import com.sln.bshop.service.OrderService;
 import com.sln.bshop.service.UserPaymentService;
 import com.sln.bshop.service.UserService;
 import com.sln.bshop.service.UserShippingService;
@@ -50,6 +54,12 @@ public class ProfileController {
 	@Autowired
 	UserShippingService userShippingService;
 	
+	@Autowired
+	CartItemService cartItemService;
+	
+	@Autowired
+	OrderService orderService;
+	
 	private void doManualLogin(String username) {
 		UserDetails userDetails = userSecurityService.loadUserByUsername(username);
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(),	userDetails.getAuthorities());
@@ -62,9 +72,9 @@ public class ProfileController {
 		User user = userService.findByEmail(principal.getName());
 		//userService.detachUser(user);
 		// My Profile tab
-		model.addAttribute("user", user);
+		//model.addAttribute("user", user);
 		// Orders tab
-		//model.addAttribute("orderList", user.getOrderList());
+		model.addAttribute("orderList", user.getOrderList());
 		// Billing tab
 		model.addAttribute("listOfCreditCards", true);
 		model.addAttribute("userPaymentList", user.getUserPaymentList());
@@ -74,6 +84,8 @@ public class ProfileController {
 		// US States
 		List<String> stateList = USConstants.listOfUSStatesCode;
 		model.addAttribute("stateList", stateList);
+		// Cart list
+		//model.addAttribute("cartItemList", user.getShoppingCart().getCartItemList());
 	}	
 	
 	@RequestMapping("/myProfile")
@@ -305,5 +317,24 @@ public class ProfileController {
 		model.addAttribute("classActiveShipping", true);
 		return "myProfile";
 	}
+	
+	@RequestMapping("/orderDetail")
+	public String orderDetail(@RequestParam("id") Long orderId,	Principal principal, Model model){
+		User user = userService.findByEmail(principal.getName());
+		Order order = orderService.findOne(orderId);
+		
+		if(!order.getUser().getId().equals(user.getId())) {
+			return "badRequest";
+		} else {
+			List<CartItem> cartItemList = cartItemService.findByOrder(order);
+			model.addAttribute("cartItemList", cartItemList);
+			model.addAttribute("order", order);
+			model.addAttribute("classActiveOrders", true);
+			model.addAttribute("displayOrderDetail", true);
+			return "myProfile";
+		}
+	}
+	
+
 	
 }

@@ -46,17 +46,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		return shoppingCart;
 	}
 	
-	/*public void clearShoppingCart(ShoppingCart shoppingCart) {
-		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-		
+	public void clearShoppingCart(ShoppingCart shoppingCart) {
+		List<CartItem> cartItemList = shoppingCart.getCartItemList();
 		for (CartItem cartItem : cartItemList) {
 			cartItem.setShoppingCart(null);
-			cartItemService.save(cartItem);
+			//cartItemService.save(cartItem);
 		}
 		
 		shoppingCart.setGrandTotal(new BigDecimal(0));
 		
 		shoppingCartRepository.save(shoppingCart);
-	}*/
+	}
 
 }

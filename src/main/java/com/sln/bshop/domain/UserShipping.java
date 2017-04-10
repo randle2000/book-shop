@@ -7,8 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class UserShipping {
@@ -16,23 +17,22 @@ public class UserShipping {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@NotNull @Size(min=2, max=30, message="Invalid name")
+	@Size(min=2, max=30, message="Invalid name")
 	private String userShippingName;
 	
-	@NotNull @Size(min=3, max=30, message="Invalid address")
+	@Size(min=3, max=30, message="Invalid address")
 	private String userShippingStreet1;
 	
 	private String userShippingStreet2;
 	
-	@NotNull @Size(min=2, max=30, message="Invalid address")
+	@Size(min=2, max=30, message="Invalid address")
 	private String userShippingCity;
 	
-	@NotNull
+	@NotEmpty
 	private String userShippingState;
 	
 	//private String userShippingCountry;
 	
-	@NotNull
 	@Digits(integer=8, fraction=0, message="Invalid ZIP code (must be digits)")
 	@Size(min=3, max=8, message="Invalid ZIP code length")
 	private String userShippingZipcode;

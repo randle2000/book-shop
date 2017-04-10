@@ -5,7 +5,7 @@
 <body>
 	<div th:replace="common/header :: navbar" />
 
-	<div class="container">
+	<div class="generic-container">
 		<div class="row" style="margin-bottom: -10px;">
 			<div class="col-xs-3">
 				<img src="/image/register-icon.png" class="img-responsive" />
@@ -51,15 +51,26 @@
 									<div th:if="${param.error != null}" class="alert alert-danger">Incorrect Email or password.</div>
 									<form th:action="@{/login}" method="post">
 										<div class="form-group">
-											<label for="newUsername">* Email: </label>
-											<input required="required" type="text" class="form-control" id="newUsername" name="username" />
+											<label for="email">* Email: </label>
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+												<input required="required" type="email" class="form-control" id="email" name="email" />
+											</div>
 											<p style="color: #828282">Enter your Email here</p>
 										</div>
 
 										<div class="form-group">
 											<label for="password">* Password: </label>
-											<input required="required" type="password" class="form-control" id="password" name="password" />
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+												<input required="required" type="password" class="form-control" id="password" name="password" />
+											</div>
 											<p style="color: #828282">Enter your password</p>
+										</div>
+										
+										<div class="form-group">
+											<input type="checkbox" name="remember-me" id="remember-me" />
+											<label for="remember-me"> Remember me</label>
 										</div>
 
 										<button type="submit" class="btn btn-primary"><i class="fa fa-sign-in" aria-hidden="true"></i> Log in</button>
@@ -84,8 +95,11 @@
 									</div>
 									<form th:action="@{/newUser}" method="post">
 										<div class="form-group" th:classappend="${invalidEmail}? 'has-error'">
-											<label for="email" class="control-label">* Email Address: </label>
-											<input required="required" type="text" class="form-control" id="email" name="email" th:value="${email}" />
+											<label for="email" class="control-label"> * Email Address: </label>
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+												<input required="required" type="text" class="form-control" id="email" name="email" th:value="${email}" />
+											</div>
 											<span th:if="${invalidEmail}" class="control-label">Invalid Email</span>
 											<p style="color: #828282">A valid email address. All
 												emails from the system will be sent to this address. The
@@ -110,7 +124,10 @@
 									<form th:action="@{/forgotPassword}" method="POST">
 										<div class="form-group">
 											<label for="recoverEmail">* Your Email: </label>
-											<input required="required" type="text" class="form-control" id="recoverEmail" name="email" />
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+												<input required="required" type="email" class="form-control" id="recoverEmail" name="email" />
+											</div>
 											<p style="color: #828282">Enter your registered email address here</p>
 										</div>
 

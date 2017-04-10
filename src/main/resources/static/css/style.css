@@ -10,7 +10,22 @@ hr {
 }
 
 .container {
-	width: 90%;
+	width: 80%;
+}
+
+.generic-container {
+  /*position:fixed;*/
+  width:80%;
+  /* margin-left: 20px; */
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  /* background-color: #EAE7E7; */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 0 30px black;
 }
 
 .banner {
@@ -60,6 +75,8 @@ hr {
 }
 
 footer {
+	/*width: 99%;*/
+	/*margin-right: 15px;*/
     background-color: #0c1a1e;
     /*background-image: url("/image/bg_all.png");*/
     min-height: 250px;

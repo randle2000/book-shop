@@ -1,6 +1,9 @@
 package com.sln.bshop.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -8,6 +11,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.sln.bshop.service.impl.UserSecurityService;
@@ -17,6 +22,9 @@ import com.sln.bshop.utility.SecurityUtility;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+    DataSource dataSource;
 
 	@Autowired
 	private UserSecurityService userSecurityService;
@@ -31,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/image/**",
 			"/",
 			"/newUser",
-			"/forgetPassword",
+			"/forgotPassword",
 			"/login",
 			"/fonts/**",
 			"/bookshelf",
@@ -46,25 +54,44 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-			//.antMatchers("/**")
-			.antMatchers("/admin/**").hasRole("ADMIN")
-			.antMatchers(PUBLIC_MATCHERS)
-			.permitAll().anyRequest().authenticated();
-		
-		http
-			.csrf().disable().cors().disable()
-			.formLogin().failureUrl("/login?error").defaultSuccessUrl("/")
-			.loginPage("/login").permitAll()
-			.and()
-			.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-			.logoutSuccessUrl("/?logout").deleteCookies("remember-me").permitAll()
-			.and()
-			.rememberMe();
+				.antMatchers("/admin/**").hasRole("ADMIN")
+				.antMatchers(PUBLIC_MATCHERS).permitAll()
+				.anyRequest().authenticated()
+				.and()
+			.csrf().disable()
+			.cors().disable()
+			.formLogin()
+				.usernameParameter("email")
+				.passwordParameter("password")
+				.failureUrl("/login?error")
+				.defaultSuccessUrl("/")
+				.loginPage("/login").permitAll()
+				.and()
+			.logout()
+				.deleteCookies("JSESSIONID")
+				.logoutUrl("/logout") 
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.logoutSuccessUrl("/?logout").deleteCookies("remember-me").permitAll()
+				.and()
+			.rememberMe()
+				.rememberMeParameter("remember-me")
+				.tokenRepository(persistentTokenRepository())
+				.tokenValiditySeconds(7 * 24 * 60 * 60); // in seconds
 	}
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
+		auth
+			.userDetailsService(userSecurityService)
+			.passwordEncoder(passwordEncoder());
+	}
+	
+	// for remember-me
+	@Bean
+	public PersistentTokenRepository persistentTokenRepository() {
+		JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
+		tokenRepositoryImpl.setDataSource(dataSource);
+		return tokenRepositoryImpl;
 	}
 
 }

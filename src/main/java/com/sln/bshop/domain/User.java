@@ -54,9 +54,9 @@ public class User implements UserDetails {
 	
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
 	ShoppingCart shoppingCart;
-	/*
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	List<Order> orderList;*/
+	List<Order> orderList;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@JsonIgnore
@@ -148,12 +148,12 @@ public class User implements UserDetails {
 	public void setShoppingCart(ShoppingCart shoppingCart) {
 		this.shoppingCart = shoppingCart;
 	}
-	/*public List<Order> getOrderList() {
+	public List<Order> getOrderList() {
 		return orderList;
 	}
 	public void setOrderList(List<Order> orderList) {
 		this.orderList = orderList;
-	}*/
+	}
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", password=" + password + ", firstName=" + firstName

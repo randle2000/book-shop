@@ -39,4 +39,8 @@ public interface UserService {
 	
 	void removeUserShipping(User user, UserShipping userShipping);
 	
+	UserShipping getDefaultUserShipping(User user);
+	
+	UserPayment getDefaultUserPayment(User user);
+	
 }

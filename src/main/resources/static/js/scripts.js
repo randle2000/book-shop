@@ -2,11 +2,12 @@
  * 
  */
 
-function checkBillingAddress() {
-	if($("#theSameAsShippingAddress").is(":checked")) {
-		$(".billingAddress").prop("disabled", true);
+/* checkout.html */
+function checkOrderBillingAddress() {
+	if($("#theSameAsOrderShipping").is(":checked")) {
+		$(".orderBilling").prop("disabled", true);
 	} else {
-		$(".billingAddress").prop("disabled", false);
+		$(".orderBilling").prop("disabled", false);
 	}
 }
 
@@ -31,14 +32,14 @@ function checkPasswordMatch() {
 	}
 }
 
-/* myAccount.html, shoppingCart.html, */
+/* myAccount.html, shoppingCart.html, checkout.html */
 $(document).ready(function(){
 	$(".cartItemQty").on('change', function(){
 		var id=this.id;
 		
 		$('#update-item-'+id).css('display', 'inline-block');
 	});
-	$("#theSameAsShippingAddress").on('click', checkBillingAddress);
+	$("#theSameAsOrderShipping").on('click', checkOrderBillingAddress);
 	$("#txtConfirmPassword").keyup(checkPasswordMatch);
 	$("#txtNewPassword").keyup(checkPasswordMatch);
 });

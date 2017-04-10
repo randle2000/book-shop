@@ -26,9 +26,9 @@ public class CartItem {
 	@JoinColumn(name="shopping_cart_id")
 	private ShoppingCart shoppingCart;
 	
-	/*@ManyToOne
+	@ManyToOne
 	@JoinColumn(name="order_id")
-	private Order order;*/
+	private Order order;
 
 	public Long getId() {
 		return id;
@@ -70,13 +70,18 @@ public class CartItem {
 		this.shoppingCart = shoppingCart;
 	}
 
-/*	public Order getOrder() {
+	public Order getOrder() {
 		return order;
 	}
 
 	public void setOrder(Order order) {
 		this.order = order;
 	}
-*/	
+
+	@Override
+	public String toString() {
+		return "CartItem [id=" + id + ", qty=" + qty + ", subtotal=" + subtotal + ", book=" + book + ", shoppingCart="
+				+ shoppingCart + ", order=" + order + "]";
+	}
 	
 }

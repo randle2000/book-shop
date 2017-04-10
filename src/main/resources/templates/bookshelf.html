@@ -25,11 +25,11 @@
 				<h3><label for="category">Category</label></h3>
 				<div class="list-group" id="category">
 					<a th:href="@{/bookshelf(category='all')}" th:classappend="${activeAll}? 'active'" class="list-group-item">All</a>
-					<a th:href="@{/searchByCategory(category='Management')}" th:classappend="${activeManagement}? 'active'" class="list-group-item">Management</a>
-					<a th:href="@{/searchByCategory(category='Fiction')}" th:classappend="${activeFiction}? 'active'" class="list-group-item">Fiction</a>
-					<a th:href="@{/searchByCategory(category='Engineering')}" th:classappend="${activeEngineering}? 'active'" class="list-group-item">Engineering</a>
+					<a th:href="@{/searchByCategory(category='Psychology')}" th:classappend="${activePsychology}? 'active'" class="list-group-item">Psychology</a>
+					<a th:href="@{/searchByCategory(category='Business &amp; Finance')}" th:classappend="${activeBusinessFinance}? 'active'" class="list-group-item">Business &amp; Finance</a>
 					<a th:href="@{/searchByCategory(category='Programming')}" th:classappend="${activeProgramming}? 'active'" class="list-group-item">Programming</a>
-					<a th:href="@{/searchByCategory(category='Arts &amp; Literature')}" th:classappend="${activeArtsLiterature}? 'active'" class="list-group-item">Arts &amp; Literature</a>
+					<a th:href="@{/searchByCategory(category='Parenting &amp; Relationships')}" th:classappend="${activeParentingRelationships}? 'active'" class="list-group-item">Parenting &amp; Relationships</a>
+					<a th:href="@{/searchByCategory(category='Politics')}" th:classappend="${activePolitics}? 'active'" class="list-group-item">Politics</a>
 				</div>
 			</div>
 			

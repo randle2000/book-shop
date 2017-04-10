@@ -189,5 +189,23 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 	}
+	
+	@Override
+	public UserShipping getDefaultUserShipping(User user) {
+		for (UserShipping userShipping : user.getUserShippingList()) {
+			if (userShipping.isUserShippingDefault()) 
+				return userShipping; 
+		}
+		return null;
+	}
+	
+	@Override
+	public UserPayment getDefaultUserPayment(User user) {
+		for (UserPayment userPayment : user.getUserPaymentList()) {
+			if (userPayment.isDefaultPayment()) 
+				return userPayment; 
+		}
+		return null;
+	}
 
 }

@@ -1,11 +1,15 @@
 package com.sln.bshop.service;
 
+import java.util.List;
+
 import com.sln.bshop.domain.Book;
 import com.sln.bshop.domain.CartItem;
+import com.sln.bshop.domain.Order;
+import com.sln.bshop.domain.ShoppingCart;
 import com.sln.bshop.domain.User;
 
 public interface CartItemService {
-	//List<CartItem> findByShoppingCart(ShoppingCart shoppingCart);
+	List<CartItem> findByShoppingCart(ShoppingCart shoppingCart);
 	
 	CartItem updateCartItem(CartItem cartItem);
 	
@@ -15,7 +19,7 @@ public interface CartItemService {
 	
 	void removeCartItem(CartItem cartItem);
 	
-	/*CartItem save(CartItem cartItem);
+	/*CartItem save(CartItem cartItem);*/
 	
-	List<CartItem> findByOrder(Order order);*/
+	List<CartItem> findByOrder(Order order);
 }

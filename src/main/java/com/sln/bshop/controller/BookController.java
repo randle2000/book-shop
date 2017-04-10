@@ -1,18 +1,15 @@
 package com.sln.bshop.controller;
 
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sln.bshop.domain.Book;
-import com.sln.bshop.domain.User;
 import com.sln.bshop.service.BookService;
 import com.sln.bshop.service.UserService;
 
@@ -24,16 +21,6 @@ public class BookController {
 	
 	@Autowired
 	BookService bookService;
-	
-	// will be called on each request
-	@ModelAttribute
-	public void populateModel(Model model, Principal principal) {
-		if(principal != null) {
-			String username = principal.getName();
-			User user = userService.findByEmail(username);
-			model.addAttribute("user", user);
-		}
-	}
 	
 	@RequestMapping("/bookshelf")
 	public String bookshelf(Model model) {
