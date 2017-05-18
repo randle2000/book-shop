@@ -70,7 +70,12 @@
 
 	<build>
 		<plugins>
-		
+
+			<!-- Include spring-boot-maven-plugin if you want to make an executable jar[FAT JAR which 
+                 includes all dependencies along with sprinboot loader] that you can run on 
+                 commandline using java -jar NAME -->
+            <!-- If you are not including it, result would be just a regular jar.
+                 You could run the project using mvn spring-boot:run [on project root directory]-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

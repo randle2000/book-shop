@@ -14,6 +14,9 @@ import com.sln.bshop.domain.security.UserRole;
 import com.sln.bshop.service.UserService;
 import com.sln.bshop.utility.SecurityUtility;
 
+// @SpringBootApplication is the same as @Configuration @EnableAutoConfiguration @ComponentScan combined
+// can use @SpringBootApplication(scanBasePackages={"com.sln.bshop"})
+// (@EnableAutoConfiguration attempts to automatically configure your Spring application based on the jar dependencies that you have added)
 @SpringBootApplication
 public class BookShopApplication implements CommandLineRunner {
 	
