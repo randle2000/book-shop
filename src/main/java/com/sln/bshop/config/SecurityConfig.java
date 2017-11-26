@@ -53,12 +53,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.authorizeRequests()
-				.antMatchers("/admin/**").hasRole("ADMIN")
+			.authorizeRequests()	// rules are applied in the order given
+				.antMatchers("/admin/**").hasRole("ADMIN")	// can also use regexMatches()
 				.antMatchers(PUBLIC_MATCHERS).permitAll()
 				.anyRequest().authenticated()
 				.and()
-			//.csrf().disable()
+//			.requiresChannel()	// https
+//				.antMatchers(PUBLIC_MATCHERS).requiresInsecure()
+//				.anyRequest().requiresSecure()
+//				.and()
+			//.csrf().disable()		// Thymeleaf adds hidden _csrf field to the form automatically
 			//.cors().disable()
 			.formLogin()
 				.usernameParameter("email")
@@ -93,5 +97,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		tokenRepositoryImpl.setDataSource(dataSource);
 		return tokenRepositoryImpl;
 	}
-
+	
 }
