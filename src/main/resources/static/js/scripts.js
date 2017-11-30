@@ -108,6 +108,14 @@ $(document).ready(function() {
 	    var path = /*[[@{/}]]*/'/admin/removeList';
 	    /*]]>*/
 	    
+	    
+		var token = $("meta[name='_csrf']").attr("content");
+		$.ajaxSetup({
+		    beforeSend: function(xhr) {
+		        xhr.setRequestHeader('X-CSRF-TOKEN', token);
+		    }
+		});
+	    
 	    bootbox.confirm({
 			message: "Are you sure to remove all selected books? It can't be undone.",
 			buttons: {
@@ -128,11 +136,11 @@ $(document).ready(function() {
 						success: function(res) {
 							console.log(res); 
 							location.reload()
-							},
+						},
 						error: function(res){
 							console.log(res); 
 							location.reload();
-							}
+						}
 					});
 				}
 			}
