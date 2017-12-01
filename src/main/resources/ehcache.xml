@@ -1,0 +1,6 @@
+<ehcache>
+  <cache name="bshopCache"
+          maxBytesLocalHeap="10m"
+          timeToLiveSeconds="300">
+  </cache>
+</ehcache>
