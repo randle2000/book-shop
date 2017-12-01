@@ -19,8 +19,10 @@ import com.sln.bshop.service.impl.UserSecurityService;
 import com.sln.bshop.utility.SecurityUtility;
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableWebSecurity	// Web layer security See page 248 in "Spring in Action 4th Edition" book
+// @EnableGlobalMethodSecurity is for method level security
+//@EnableGlobalMethodSecurity(prePostEnabled=true)	// prePostEnabled is needed for @PreAuthorize, @PostAuthorize, @PreFilter and @PostFilter. See page 383 in "Spring in Action 4th Edition" book
+@EnableGlobalMethodSecurity(securedEnabled=true)	// securedEnabled is needed for @Secured
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired

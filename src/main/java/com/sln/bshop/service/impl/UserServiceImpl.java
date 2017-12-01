@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import com.sln.bshop.domain.security.Role;
@@ -115,12 +116,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	public User save(User user) {
 		return userRepository.save(user);
 	}
 	
 	@Override
 	@Transactional
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	public void updateUserBilling(UserBilling userBilling, UserPayment userPayment, User user) {
 		userPaymentRepository.setAllDefaultPayment(false, user);	// remove 'default' flag from all other payments
 		userPayment.setUser(user);
@@ -132,6 +135,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	public void setUserDefaultPayment(Long userPaymentId, User user) {
 		List<UserPayment> userPaymentList = user.getUserPaymentList();
 		
@@ -143,6 +147,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	public void updateUserShipping(UserShipping userShipping, User user) {
 		userShippingRepository.setAllDefaultShipping(false, user);	// remove 'default' flag from all other shippings
 		userShipping.setUser(user);
@@ -152,6 +157,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	public void setUserDefaultShipping(Long userShippingId, User user) {
 		List<UserShipping> userShippingList = user.getUserShippingList();
 		
@@ -163,6 +169,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	public void removeUserPayment(User user, UserPayment userPayment) {
 		//userPaymentRepository.delete(userPayment);
 		user.getUserPaymentList().remove(userPayment);
@@ -178,6 +185,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	public void removeUserShipping(User user, UserShipping userShipping) {
 		//userShippingRepository.delete(userShipping);
 		user.getUserShippingList().remove(userShipping);
@@ -191,6 +199,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	public UserShipping getDefaultUserShipping(User user) {
 		for (UserShipping userShipping : user.getUserShippingList()) {
 			if (userShipping.isUserShippingDefault()) 
@@ -200,6 +209,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Secured({"ROLE_USER", "ROLE_ADMIN"})
 	public UserPayment getDefaultUserPayment(User user) {
 		for (UserPayment userPayment : user.getUserPaymentList()) {
 			if (userPayment.isDefaultPayment()) 
