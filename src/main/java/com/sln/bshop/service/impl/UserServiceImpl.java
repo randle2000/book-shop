@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Secured({"ROLE_USER", "ROLE_ADMIN"})
+	//@Secured({"ROLE_USER", "ROLE_ADMIN"})	// this should not be secured as it is also accessed by non-authenticated users (when user forgot password for example)
 	public User save(User user) {
 		return userRepository.save(user);
 	}

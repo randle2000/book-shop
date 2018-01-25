@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
 
 import com.sln.bshop.domain.User;
 import com.sln.bshop.domain.security.Role;
@@ -18,6 +19,9 @@ import com.sln.bshop.utility.SecurityUtility;
 // can use @SpringBootApplication(scanBasePackages={"com.sln.bshop"})
 // (@EnableAutoConfiguration attempts to automatically configure your Spring application based on the jar dependencies that you have added)
 @SpringBootApplication
+// This will make properties from mail.properties also available (in addition to application-local.properties or application-heroku.properties 
+// see: https://www.mkyong.com/spring/spring-propertysources-example/
+@PropertySource("classpath:mail.properties")	
 public class BookShopApplication implements CommandLineRunner {
 	
 	@Autowired
