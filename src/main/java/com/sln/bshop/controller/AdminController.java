@@ -30,6 +30,18 @@ public class AdminController {
 	
 	@RequestMapping({"/", ""})
 	public String index(Model model){
+		/*
+		// Print all files/folders from current dir
+		// Files.walk API is available from Java 8
+		try (Stream<Path> paths = Files.walk(Paths.get("."))) {
+		    paths
+		        .filter(Files::isRegularFile)
+		        .forEach(System.out::println);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		*/
+		
 		List<Book> bookList = bookService.findAll();
 		model.addAttribute("bookList", bookList);		
 		return "admin/bookList";
@@ -86,6 +98,7 @@ public class AdminController {
 	
 	@RequestMapping(value="/updateBook", method=RequestMethod.POST)
 	public String updateBookPost(@ModelAttribute("book") Book book, HttpServletRequest request) {
+		
 		bookService.save(book);
 		
 		MultipartFile bookImage = book.getBookImage();
@@ -93,12 +106,12 @@ public class AdminController {
 		if(!bookImage.isEmpty()) {
 			try {
 				byte[] bytes = bookImage.getBytes();
-				String name = book.getId() + ".png";
+				//String name = "src/main/resources/static/image/book/" + book.getId() + ".png";
+				String name = "target/classes/static/image/book/" + book.getId() + ".png";
+
+				Files.delete(Paths.get(name));
 				
-				Files.delete(Paths.get("src/main/resources/static/image/book/"+name));
-				
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File("src/main/resources/static/image/book/" + name)));
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(name)));
 				stream.write(bytes);
 				stream.close();
 			} catch (Exception e) {

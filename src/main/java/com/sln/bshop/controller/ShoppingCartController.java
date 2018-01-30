@@ -82,9 +82,11 @@ public class ShoppingCartController {
 	// posted from shoppingCart.html, updating qty for each cartItem
 	@RequestMapping(value="/updateCartItem", method=RequestMethod.POST)
 	public String updateShoppingCart(@RequestParam("id") Long cartItemId, @RequestParam("qty") int qty) {
-		CartItem cartItem = cartItemService.findById(cartItemId);
-		cartItem.setQty(qty);
-		cartItemService.updateCartItem(cartItem);
+		if (qty > 0) {
+			CartItem cartItem = cartItemService.findById(cartItemId);
+			cartItem.setQty(qty);
+			cartItemService.updateCartItem(cartItem);
+		}
 		
 		return "forward:/shoppingCart/cart";
 	}

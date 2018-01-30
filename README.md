@@ -29,25 +29,25 @@ CREATE TABLE `persistent_logins` (
 - To compile (skipTests is necessary to prevent it connecting to DB, because you're not using any profile here):
 `mvn clean package -DskipTests`
 	
-- To run locally:
-`java -Dserver.port=8090 -Dspring.profiles.active=local -jar book-shop-0.0.1-SNAPSHOT.jar`
-OR 
+- To run locally:  
+`java -Dserver.port=8090 -Dspring.profiles.active=local -jar book-shop-0.0.1-SNAPSHOT.jar`  
+OR  
 `mvn spring-boot:run -Drun.jvmArguments="-Dspring.profiles.active=local"`
 	- setting `spring.profiles.active=local` will make Spring use `application-local.properties`
 	- when it is being run on Heroku, heroku-maven-plugin in pom.xml uses this instead: `-Dspring.profiles.active=heroku`
 	- alternatively, you can set OS System Environment variable `SPRING_PROFILES_ACTIVE=local`
-	for more info see:
-	https://docs.spring.io/spring-boot/docs/current/reference/html/howto-properties-and-configuration.html
+	for more info see:  
+	https://docs.spring.io/spring-boot/docs/current/reference/html/howto-properties-and-configuration.html  
 	https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config
 
-- To run in Eclipse:
+- To run in Eclipse:  
 	- Run -> Run Configurations... -> Spring Boot App -> <book-shop> -> Spring Boot tab -> Profile = local
 	- OR set system property spring.profiles.active=local
 
-- To deploy:
+- To deploy:  
 `mvn clean heroku:deploy -DskipTests`
 
-- To see logs:
+- To see logs:  
 `heroku logs --app APP-NAME --num NUMER_OF_LINES`
 
 ### UML diagram
