@@ -2,7 +2,7 @@
 
 ### If you have cloned this project from git	
 - Edit application-local.properties for DB URL, username and password
-- Crate tables manually or set spring.jpa.hibernate.ddl-auto=create
+- Crate tables manually OR set spring.jpa.hibernate.ddl-auto=create OR run with `docker-compose up -d` which will use `01-init.sql` and `02-book.sql` to create tables and populate books
 - Rename mail.properties-dummy to mail.properties and update password
 
 ### Profiles

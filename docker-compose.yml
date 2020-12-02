@@ -1,0 +1,19 @@
+version: '3.5'
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-book-shop
+    restart: always
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: sesame
+      MYSQL_DATABASE: book_shop
+#      MYSQL_USER: root
+#      MYSQL_PASSWORD: sesame
+    ports:
+      - 3306:3306
+#    command: --init-file /data/application/init.sql
+    volumes:
+      - ./01-init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./02-book.sql:/docker-entrypoint-initdb.d/02-book.sql
+#      - ./init.sql:/data/application/init.sql
